@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Further Study | Devmountain Foundations</title>
+
+      <link
+        href="_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+
+      <script src="_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Further Study</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Further Study</a><ul>
+<li><a class="reference internal" href="#the-login-page">The Login Page</a></li>
+<li><a class="reference internal" href="#understanding-the-melon-class">Understanding the Melon Class</a></li>
+<li><a class="reference internal" href="#making-a-customer-class">Making a Customer Class</a></li>
+<li><a class="reference internal" href="#wiring-up-the-login-form">Wiring Up the Login Form</a></li>
+<li><a class="reference internal" href="#making-the-navbar-reflect-logged-in-ness">Making the Navbar Reflect Logged-in-ness</a></li>
+<li><a class="reference internal" href="#handling-logout">Handling Logout</a></li>
+<li><a class="reference internal" href="#logins-on-real-systems">Logins on Real Systems</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#solution">Solution</a></li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="further-study">
+<h1>Further Study</h1>
+<section class="section" id="the-login-page">
+<h2>The Login Page</h2>
+<p>If you click on the ‘Log In’ link in the nav bar at the top of the screen,
+you’ll see that it does nothing. However, if you examine the list of routes
+available in your <cite>shoppingsite.py</cite> file, you will find that there is a
+login route. You can browse to the URL directly in your browser.</p>
+<p>To fix this bug:</p>
+<ol class="arabic">
+<li><p>Wire up the login link to go to the login page.</p>
+<p>Your first task is to locate the <code class="docutils literal notranslate"><span class="pre">&lt;a</span> <span class="pre">href&gt;</span></code> tag that is used in the
+black bar at the top of the page. This section of the page is typically
+called the <em>navbar</em>. Use the browser’s element inspector to see exactly
+what lines of HTML you’re looking for. Remember that this part of the page
+is shared across multiple pages.</p>
+</li>
+<li><p>Extend the base template.</p>
+<p>When you <em>do</em> have the login page wired up, you’ll notice that its style
+doesn’t match the other pages. We want it to use the same style.
+To do that, make this page a child of our <cite>base.html</cite> template. Check
+either <cite>melon_details.html</cite> or <cite>all_melons.html</cite> for an example on
+how to do that.</p>
+</li>
+</ol>
+<p>The remainder of this Further Study section is dense, so take
+it step-by-step. You might find it helpful to revisit this later
+or even after the program is complete — it introduces a lot of good intermediate
+practices.</p>
+</section>
+<section class="section" id="understanding-the-melon-class">
+<h2>Understanding the Melon Class</h2>
+<p>Before we add more features to this application, let’s get a better
+understanding of the <cite>melons.py</cite> file. There are some interesting,
+intermediate Python things happening in there.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">melons.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Ubermelon melon types.</span>
+
+<span class="sd">This provides a Melon class, helper methods to get all melons, find a</span>
+<span class="sd">melon by id.</span>
+
+<span class="sd">It reads melon data in from a text file.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">Melon</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An Ubermelon Melon type.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">melon_id</span><span class="p">,</span>
+                 <span class="n">melon_type</span><span class="p">,</span>
+                 <span class="n">common_name</span><span class="p">,</span>
+                 <span class="n">price</span><span class="p">,</span>
+                 <span class="n">image_url</span><span class="p">,</span>
+                 <span class="n">color</span><span class="p">,</span>
+                 <span class="n">seedless</span><span class="p">,</span>
+                 <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">melon_id</span> <span class="o">=</span> <span class="n">melon_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">melon_type</span> <span class="o">=</span> <span class="n">melon_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">common_name</span> <span class="o">=</span> <span class="n">common_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">price</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_url</span> <span class="o">=</span> <span class="n">image_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seedless</span> <span class="o">=</span> <span class="n">seedless</span>
+
+    <span class="k">def</span> <span class="nf">price_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return price formatted as string $x.xx&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convenience method to show information about melon in console.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Melon: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">melon_id</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">common_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">price_str</span><span class="p">()</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">read_melon_types_from_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read melon type data and populate dictionary of melon types.</span>
+
+<span class="sd">    Dictionary will be {id: Melon object}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">melon_types</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">melon_id</span><span class="p">,</span>
+             <span class="n">melon_type</span><span class="p">,</span>
+             <span class="n">common_name</span><span class="p">,</span>
+             <span class="n">price</span><span class="p">,</span>
+             <span class="n">img_url</span><span class="p">,</span>
+             <span class="n">color</span><span class="p">,</span>
+             <span class="n">seedless</span><span class="p">)</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span>
+
+            <span class="n">price</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+
+            <span class="c1"># For seedless, we want to turn &quot;1&quot; =&gt; True, otherwise False</span>
+            <span class="n">seedless</span> <span class="o">=</span> <span class="p">(</span><span class="n">seedless</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span>
+
+            <span class="n">melon_types</span><span class="p">[</span><span class="n">melon_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Melon</span><span class="p">(</span><span class="n">melon_id</span><span class="p">,</span>
+                                          <span class="n">melon_type</span><span class="p">,</span>
+                                          <span class="n">common_name</span><span class="p">,</span>
+                                          <span class="n">price</span><span class="p">,</span>
+                                          <span class="n">img_url</span><span class="p">,</span>
+                                          <span class="n">color</span><span class="p">,</span>
+                                          <span class="n">seedless</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">melon_types</span>
+
+
+<span class="k">def</span> <span class="nf">get_all</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return list of melons.</span>
+
+<span class="sd">        If you call this function, you should get back a list like the one below.</span>
+<span class="sd">        NOTE: This is an example of a doctest.</span>
+
+<span class="sd">        &gt;&gt;&gt; get_all()</span>
+<span class="sd">        [&lt;Melon: 2, Crenshaw, $2.00&gt;, &lt;Melon: 14, Ali Baba Watermelon, $2.50&gt;, &lt;Melon: 15, Ancient Watermelon, $3.00&gt;, &lt;Melon: 16, Arkansas Black Watermelon, $4.00&gt;, &lt;Melon: 21, Chris Cross Watermelon, $2.50&gt;, &lt;Melon: 23, Congo Watermelon, $2.00&gt;, &lt;Melon: 25, Crimson Sweet Watermelon, $1.75&gt;, &lt;Melon: 27, Desert King Watermelon, $2.00&gt;, &lt;Melon: 28, Dixie Queen Watermelon, $2.00&gt;, &lt;Melon: 29, Moonbeam Watermon, $2.25&gt;, &lt;Melon: 30, Fairfax Watermelon, $2.00&gt;, &lt;Melon: 32, Golden Honey Watermelon, $2.50&gt;, &lt;Melon: 33, Golden Midget Watermelon, $2.50&gt;, &lt;Melon: 34, Hopi Yellow Watermelon, $2.50&gt;, &lt;Melon: 35, Irish Grey Watermelon, $2.50&gt;, &lt;Melon: 37, Jubilee Bush Watermelon, $2.50&gt;, &lt;Melon: 38, Jubilee Watermelon, $2.50&gt;, &lt;Melon: 42, Ledmon Watermelon, $3.00&gt;, &lt;Melon: 44, Malali Watermelon, $2.00&gt;, &lt;Melon: 45, Melitopolski Watermelon, $3.00&gt;, &lt;Melon: 48, Montenegro Man Melon, $2.50&gt;, &lt;Melon: 49, Moon and Stars Watermelon, $2.50&gt;, &lt;Melon: 52, Navajo Winter Watermelon, $3.00&gt;, &lt;Melon: 54, Orangeglo Watermelon, $2.75&gt;, &lt;Melon: 56, Royal Golden Watermelon, $2.25&gt;, &lt;Melon: 57, Scaly Bark Watermelon, $4.00&gt;, &lt;Melon: 58, Stone Mountain Watermelon, $3.00&gt;, &lt;Melon: 59, Sugar Baby Watermelon, $2.50&gt;, &lt;Melon: 60, Takii Gem Watermelon, $2.75&gt;, &lt;Melon: 61, Tendergold Watermelon, $2.50&gt;, &lt;Melon: 62, Texas Golden Watermelon, $2.75&gt;, &lt;Melon: 63, Thai Rom Dao Watermelon, $2.50&gt;, &lt;Melon: 64, Tom Watson Watermelon, $2.25&gt;, &lt;Melon: 66, White Wonder Watermelon, $2.50&gt;, &lt;Melon: 67, Wilson&#39;s Sweet Watermelon, $2.50&gt;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># This relies on access to the global dictionary `melon_types`</span>
+
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">melon_types</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+
+<span class="k">def</span> <span class="nf">get_by_id</span><span class="p">(</span><span class="n">melon_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a melon, given its ID.&quot;&quot;&quot;</span>
+
+    <span class="c1"># This relies on access to the global dictionary `melon_types`</span>
+
+    <span class="k">return</span> <span class="n">melon_types</span><span class="p">[</span><span class="n">melon_id</span><span class="p">]</span>
+
+
+<span class="c1"># Dictionary to hold types of melons.</span>
+<span class="c1">#</span>
+<span class="c1"># Format is {id: Melon object, ... }</span>
+
+<span class="n">melon_types</span> <span class="o">=</span> <span class="n">read_melon_types_from_file</span><span class="p">(</span><span class="s2">&quot;melons.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>First, we’re defining a <cite>Melon</cite> class to model a melon.
+By having a <cite>Melon</cite> class in Python we can use nice object-oriented features
+like having methods and attributes for melons.</p>
+<p>The <cite>__init__()</cite> method takes a number of arguments and creates a Melon object:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">melons.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">melon_id</span><span class="p">,</span>
+                 <span class="n">melon_type</span><span class="p">,</span>
+                 <span class="n">common_name</span><span class="p">,</span>
+                 <span class="n">price</span><span class="p">,</span>
+                 <span class="n">image_url</span><span class="p">,</span>
+                 <span class="n">color</span><span class="p">,</span>
+                 <span class="n">seedless</span><span class="p">,</span>
+                 <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">melon_id</span> <span class="o">=</span> <span class="n">melon_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">melon_type</span> <span class="o">=</span> <span class="n">melon_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">common_name</span> <span class="o">=</span> <span class="n">common_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">price</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_url</span> <span class="o">=</span> <span class="n">image_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seedless</span> <span class="o">=</span> <span class="n">seedless</span>
+</pre></div>
+</div>
+</div>
+<p>The <cite>__repr__()</cite> method makes it so that when we print a Melon in the
+terminal, we get an easy-to-understand version of the Melon object:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">melons.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convenience method to show information about melon in console.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Melon: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">melon_id</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">common_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">price_str</span><span class="p">()</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>This looks like:</p>
+<pre class="console literal-block">(env) $ <span class="cmd">python3 -i melons.py</span>
+&gt;&gt;&gt; <span class="cmd">melon = get_by_id(&quot;cren&quot;)</span>
+&gt;&gt;&gt; <span class="cmd">print(melon)</span>
+&lt;Melon: cren, Crenshaw, $2.00&gt;</pre>
+<p>This is much nicer than just seeing <code class="docutils literal notranslate"><span class="pre">&lt;Melon</span> <span class="pre">at</span> <span class="pre">0x343434&gt;</span></code> or such.</p>
+</section>
+<section class="section" id="making-a-customer-class">
+<h2>Making a Customer Class</h2>
+<p>Ultimately, we’ll want to fix the login system.</p>
+<p>First, though, we need to make a <cite>Customer</cite> class that acts like the <cite>Melon</cite>
+class.</p>
+<p>Right now, we have:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">customers.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Customers at Ubermelon.&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ubermelon customer.&quot;&quot;&quot;</span>
+
+    <span class="c1"># TODO: need to implement this</span>
+</pre></div>
+</div>
+</div>
+<p>We also have a text file of customer data:</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">customers.txt</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Jane</span><span class="o">|</span><span class="n">Melonista</span><span class="o">|</span><span class="n">jane</span><span class="nd">@jane</span><span class="o">.</span><span class="n">com</span><span class="o">|</span><span class="n">secret</span>
+<span class="n">Jayden</span><span class="o">|</span><span class="n">Auden</span><span class="o">|</span><span class="n">jayden</span><span class="nd">@gmail</span><span class="o">.</span><span class="n">com</span><span class="o">|</span><span class="n">nevertell</span>
+<span class="n">Janet</span><span class="o">|</span><span class="n">Jefferson</span><span class="o">|</span><span class="n">janet</span><span class="nd">@hotmail</span><span class="o">.</span><span class="n">com</span><span class="o">|</span><span class="n">seekrit</span>
+</pre></div>
+</div>
+</div>
+<p>The format of this file is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">first</span><span class="o">-</span><span class="n">name</span> <span class="o">|</span> <span class="n">last</span><span class="o">-</span><span class="n">name</span> <span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="n">password</span>
+</pre></div>
+</div>
+<p>Using <cite>melons.py</cite> as your model:</p>
+<ol class="arabic">
+<li><p>Add an <cite>__init__()</cite> method that can be passed a first name, last name,
+email address, and password, and initializes instance attributes with these
+values.</p></li>
+<li><p>Add a <cite>__repr()__</cite> method like you have for the <cite>Melon</cite> class so that when
+you print a customer, you can see some useful information about them.
+This is very handy for debugging.</p></li>
+<li><p>Add a function to read the <cite>customers.txt</cite> and populate a dictionary with
+the format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">email</span><span class="p">:</span> <span class="n">Customer</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+ <span class="n">email</span><span class="p">:</span> <span class="n">Customer</span><span class="p">(</span><span class="o">...</span><span class="p">)}</span>
+</pre></div>
+</div>
+<p>This format will allow you to look up a customer by email address.</p>
+</li>
+<li><p>Add a function <cite>get_by_email()</cite> that gets a <cite>Customer</cite> object by email
+address and returns it.</p></li>
+</ol>
+<p>When your <cite>Customer</cite> class is finished, you should be able to do this:</p>
+<pre class="console literal-block">(env) $ <span class="cmd">python3 -i customers.py</span>
+&gt;&gt;&gt; <span class="cmd">jane = get_by_email('jane&#64;jane.com')</span>
+&gt;&gt;&gt; <span class="cmd">jane.email</span>
+'jane&#64;jane.com'
+&gt;&gt;&gt; <span class="cmd">jane.first_name</span>
+'Jane'
+&gt;&gt;&gt; <span class="cmd">jane.last_name</span>
+u'Melonista'
+&gt;&gt;&gt; <span class="cmd">jane.password</span>
+u'secret'</pre>
+</section>
+<section class="section" id="wiring-up-the-login-form">
+<h2>Wiring Up the Login Form</h2>
+<p>Now it’s time to make the login form work!</p>
+<p>When the user submits the login form, the email address and password get sent
+to the <cite>process_login()</cite> view function. Write the code for this function
+so that it:</p>
+<ol class="arabic simple">
+<li><p>Extracts the form fields from the
+<a class="reference external" href="http://flask.pocoo.org/docs/quickstart/#the-request-object" target="_blank">request object</a>.</p></li>
+<li><p>Uses the <cite>get_by_email</cite> function you wrote in the last section to look up
+whether or not that user exists in the system.</p></li>
+<li><p>If they do, checks the given password against the stored password for
+that customer.</p></li>
+<li><p>If the passwords match, stores the user’s email in the session under the
+key <cite>logged_in_customer_email</cite>, flashes a “Login successful!” message, and
+redirects the user to the main melon listings.</p></li>
+<li><p>If the passwords don’t match, flashes an “Incorrect password” message and
+redirect back to the login form.</p></li>
+<li><p>Flashes a similar message (“No customer with that email found.”) if
+the user doesn’t exist, in which case the user should also be redirected
+back to the login form.</p></li>
+</ol>
+</section>
+<section class="section" id="making-the-navbar-reflect-logged-in-ness">
+<h2>Making the Navbar Reflect Logged-in-ness</h2>
+<p>Change your templates so that if a customer is logged in (i.e., they exist
+in the session), a “Log Out” link shows in the navbar instead of a “Log In” link.</p>
+<p><strong>Hint</strong>: in a Jinja template, you can refer to <cite>session</cite> directly.</p>
+</section>
+<section class="section" id="handling-logout">
+<h2>Handling Logout</h2>
+<p>The way we’re keeping track of whether or not a user is logged in is by
+the presence (or absence) of a <cite>logged_in_customer_email</cite> entry in the
+<cite>session</cite>. So, to log a user out, all you need to do is delete this entry.</p>
+<p>Create a route (<code class="docutils literal notranslate"><span class="pre">&#64;app.route(&quot;/logout&quot;)</span></code>) and a corresponding view function
+(<code class="docutils literal notranslate"><span class="pre">process_logout()</span></code>) to do this. Your function should also flash a
+“Logged out” message and redirect the user to the melon listings page.</p>
+<p>Don’t forget to also make the “Log Out” link you created above point to
+this route.</p>
+</section>
+<section class="section" id="logins-on-real-systems">
+<h2>Logins on Real Systems</h2>
+<p>Is this how login and logout happens on real systems? Mostly, with
+some small differences around security.</p>
+<p>It’s generally a bad idea to store user passwords in a file or a
+database – if a hacker (or even an evil employee!) can read that,
+they can learn everyone’s password. Therefore, passwords are usually
+stored “hashed” – turned into a value that isn’t the real value.</p>
+<p>You can try this idea out:</p>
+<pre class="console literal-block">(env) $ python3
+&gt;&gt;&gt; <span class="cmd">pwd1 = hash(&quot;secret&quot;)</span>
+&gt;&gt;&gt; <span class="cmd">pwd1</span>
+-2112445807897684686
+&gt;&gt;&gt; <span class="cmd">pwd2 = hash(&quot;secret&quot;)</span>
+&gt;&gt;&gt; <span class="cmd">pwd2</span>
+-2112445807897684686</pre>
+<p>The string “secret” will get hashed by Python to the value
+<cite>-2112445807897684686</cite>, reliably, so you could store <em>that</em> instead. There’s
+no easy way to turn that number back into the word “secret,” so no one could
+tell what the original password was.</p>
+<p>Then, instead of checking to see if the password a user entered was equal to
+the original password, you’d check if the <em>hash</em> of the password entered
+was equal to the <em>stored hash</em> of the real password. Imagine this method is
+in the <cite>Customer</cite> class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_correct_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if password is correct password for this customer.</span>
+
+<span class="sd">    Compare the hash of password to the stored hash of the</span>
+<span class="sd">    original password.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashed_password</span>
+</pre></div>
+</div>
+<p>Instead of storing the original password in the database, you’d change your
+table and <cite>Customer</cite> class to have a field and attribute called <cite>hashed_password</cite>.</p>
+<p>In real life, you wouldn’t use the built-in Python <cite>hash()</cite> function for
+this. That function is written to be as fast as possible (since Python uses
+it all the time for things like dictionary keys), not written to be
+cryptographically secure against hackers. In real life, people use special hash
+algorithms written specifically for this.</p>
+<p>If you’re really interested, a good technical overview is at
+<a class="reference external" href="http://www.cyberciti.biz/python-tutorials/securely-hash-passwords-in-python/" target="_blank">Securely Hash Passwords in Python</a>.</p>
+</section>
+</section>
+<section class="section" id="solution">
+<h1>Solution</h1>
+<p><a class="reference external" href="solution">Click here to view the solution</a>.</p>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2022 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="_static/main.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+  </body>
+</html>

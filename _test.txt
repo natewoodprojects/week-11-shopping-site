@@ -1,0 +1,132 @@
+Start by testing files we ship to students.
+
+customers.py
+------------
+
+
+Test import:
+
+    >>> import customers
+
+
+melons.py
+---------
+
+Test import:
+
+    >>> import melons
+
+Test instantiating a melon independent of other functions.
+
+    >>> test_melon = melons.Melon('testid',
+    ...                           'Spectacular Faux Melon',
+    ...                           'Testmelon',
+    ...                            45.5,
+    ...                            'placemelon.com',
+    ...                            'rainbow sparkles',
+    ...                             False)
+    ...
+
+Test __repr__ method:
+
+    >>> test_melon
+    <Melon: testid, Testmelon, $45.50>
+
+Test method price_str.
+
+    >>> test_melon.price_str()
+    '$45.50'
+
+Check value returned by melon_types dictionary to test
+"read_melon_types_from_file" function.
+
+    >>> print(melons.melon_types['moon'])
+    <Melon: moon, Moonbeam Watermelon, $2.25>
+
+Test get_all function.
+
+    >>> all_test_melons = melons.get_all()
+    >>> for melon in all_test_melons:
+    ...     print(melon)
+    <Melon: cren, Crenshaw, $2.00>
+    <Melon: alib, Ali Baba Watermelon, $2.50>
+    <Melon: anci, Ancient Watermelon, $3.00>
+    <Melon: arkb, Arkansas Black Watermelon, $4.00>
+    <Melon: chrc, Chris Cross Watermelon, $2.50>
+    <Melon: cong, Congo Watermelon, $2.00>
+    <Melon: cris, Crimson Sweet Watermelon, $1.75>
+    <Melon: desk, Desert King Watermelon, $2.00>
+    <Melon: dixq, Dixie Queen Watermelon, $2.00>
+    <Melon: fair, Fairfax Watermelon, $2.00>
+    <Melon: golh, Golden Honey Watermelon, $2.50>
+    <Melon: golm, Golden Midget Watermelon, $2.50>
+    <Melon: hopy, Hopi Yellow Watermelon, $2.50>
+    <Melon: irig, Irish Grey Watermelon, $2.50>
+    <Melon: jubb, Jubilee Bush Watermelon, $2.50>
+    <Melon: jubi, Jubilee Watermelon, $2.50>
+    <Melon: ledm, Ledmon Watermelon, $3.00>
+    <Melon: mala, Malali Watermelon, $2.00>
+    <Melon: meli, Melitopolski Watermelon, $3.00>
+    <Melon: monm, Montenegro Man Melon, $2.50>
+    <Melon: moos, Moon and Stars Watermelon, $2.50>
+    <Melon: moon, Moonbeam Watermelon, $2.25>
+    <Melon: navw, Navajo Winter Watermelon, $3.00>
+    <Melon: oran, Orangeglo Watermelon, $2.75>
+    <Melon: royg, Royal Golden Watermelon, $2.25>
+    <Melon: scab, Scaly Bark Watermelon, $4.00>
+    <Melon: stom, Stone Mountain Watermelon, $3.00>
+    <Melon: sugb, Sugar Baby Watermelon, $2.50>
+    <Melon: takg, Takii Gem Watermelon, $2.75>
+    <Melon: tend, Tendergold Watermelon, $2.50>
+    <Melon: texg, Texas Golden Watermelon, $2.75>
+    <Melon: thrd, Thai Rom Dao Watermelon, $2.50>
+    <Melon: tomw, Tom Watson Watermelon, $2.25>
+    <Melon: whiw, White Wonder Watermelon, $2.50>
+    <Melon: wils, Wilson's Sweet Watermelon, $2.50>
+
+
+shoppingsite.py
+---------------
+
+
+Test homepage:
+
+    >>> from shoppingsite import app
+    >>> client = app.test_client()
+
+    >>> r = client.get("/")
+    >>> assert "Melons when you want them." in str(r.data), r.data
+
+Test melons:
+
+    >>> r =  client.get("/melons")
+    >>> assert "Top Selling Melons" in str(r.data), r.data
+
+Test melons/<melon-id>. Hard-coded to always get back Mel Melon, no matter what
+ID we give it:
+
+    >>> r = client.get("/melon/moon")
+    <Melon: meli, Melitopolski Watermelon, $3.00>
+    >>> assert "Melitopolski Watermelon" in str(r.data), r.data
+
+Test cart is always hard-coded to get back Ancient Watermelon:
+
+    >>> r = client.get("/cart")
+    >>> assert "Ancient Watermelon" in str(r.data), r.data
+
+Test add_to_cart, which isn't implemented yet:
+
+    >>> r = client.get("/add_to_cart/moon")
+    >>> assert "Oops! This needs to be implemented!" in str(r.data), r.data
+
+Test login form (get method):
+    >>> r = client.get("/login")
+    >>> assert "Please Sign In" in str(r.data), r.data
+
+Test login form (post method):
+    >>> r = client.post("/login")
+    >>> assert "Oops! This needs to be implemented" in str(r.data), r.data
+
+Test checkout:
+    >>> r = client.get("/checkout", follow_redirects=True)
+    >>> assert("Sorry! Checkout will be implemented in a future version.") in str(r.data), r.data

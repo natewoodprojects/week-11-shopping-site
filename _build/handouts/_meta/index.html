@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Rubric | Devmountain Foundations</title>
+
+      <link
+        href="../_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="../_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+      <script src="../_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Rubric</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Rubric</a><ul>
+<li><a class="reference internal" href="#todo">TODO</a></li>
+<li><a class="reference internal" href="#goals">Goals</a></li>
+<li><a class="reference internal" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="rubric">
+<h1>Rubric</h1>
+<dl class="field-list simple">
+<dt class="field-odd">topics</dt>
+<dd class="field-odd"><p>Flask, MVC pattern</p>
+</dd>
+<dt class="field-even">extra credit concepts</dt>
+<dd class="field-even"><p>sessions</p>
+</dd>
+<dt class="field-odd">requires</dt>
+<dd class="field-odd"><p>Flask, HTML Forms, Virtualenv, Jinja,</p>
+</dd>
+<dt class="field-even">time</dt>
+<dd class="field-even"><p>3-6 hours</p>
+</dd>
+<dt class="field-odd">authors</dt>
+<dd class="field-odd"><p>Joel Burton, Christian Fernandez, Meggie Mahnken</p>
+</dd>
+</dl>
+<section class="section" id="todo">
+<h2>TODO</h2>
+<ul class="simple">
+<li><p>talk about redirecting to cart</p></li>
+<li><p>clarify how they should organize their session cart and how they should organize the list
+of melons that gets sent down to the cart template (way too confusing)</p></li>
+</ul>
+</section>
+<section class="section" id="goals">
+<h2>Goals</h2>
+<p>Students will build a shopping cart app that demonstrates Flask routing
+and Flask/HTML integration.</p>
+</section>
+<section class="section" id="gotchas">
+<h2>Gotchas</h2>
+<p>The link to the melon image is finicky. Once fixed, it might still be broken on the melon details
+page. This solution seems to not be always correct, but at first blush, static should always
+be referenced from the root of the server, ex: <code class="docutils literal notranslate"><span class="pre">src=&quot;/static/img/watermelon.png&quot;</span></code></p>
+<p>Flask can’t detect changes to mutable objects in <cite>session</cite>. One way to make this
+work is to manually set <code class="docutils literal notranslate"><span class="pre">session.modified</span> <span class="pre">=</span> <span class="pre">True</span></code> or to add a flash message
+(which is pretty hacky but oh well)</p>
+<p>Basically, make sure students follow the instructions and add a flash message
+before redirecting (if they’re ever attempting to alter <cite>session</cite>)</p>
+<p>Flask is fine handling assignments and deletions. This behavior just causes
+problems when students attempt to add new melons to their cart. So make sure
+they do the flash message thing or set <code class="docutils literal notranslate"><span class="pre">session.modified</span></code> manually</p>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2022 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="../_static/main.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+  </body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Shopping Site | Devmountain Foundations</title>
+
+      <link
+        href="_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+
+      <script src="_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Shopping Site</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Shopping Site</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#task-0-set-up-a-virtual-environment">Task 0: Set Up a Virtual Environment</a></li>
+<li><a class="reference internal" href="#task-1-explore-the-app">Task 1: Explore the App</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#viewing-melons">Viewing Melons</a><ul>
+<li><a class="reference internal" href="#task-2-fix-links-to-melon-details-pages">Task 2: Fix Links to Melon Details Pages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-shopping-cart">The Shopping Cart</a><ul>
+<li><a class="reference internal" href="#task-3-add-melons-to-the-cart">Task 3: Add Melons to the Cart</a></li>
+<li><a class="reference internal" href="#task-4-display-the-cart">Task 4: Display the Cart</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#congratulations">Congratulations!</a></li>
+<li><a class="reference internal" href="#solution">Solution</a></li>
+<li><a class="reference internal" href="#further-study">Further Study</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="shopping-site">
+<h1>Shopping Site</h1>
+<p>This repo contains a partially functioning version of a shopping site for
+melons. While it is reasonably well constructed, there are a few bugs and
+unimplemented features, the repair of which will demonstrate some of the
+subtleties of working within a web framework.</p>
+<section class="section" id="setup">
+<h2>Setup</h2>
+<p>Download the materials for this exercise <a class="reference external" href="https://ed.devmountain.com/materials/exercises/shopping-site.zip">here</a>.</p>
+</section>
+<section class="section" id="getting-started">
+<h2>Getting Started</h2>
+<section class="section" id="task-0-set-up-a-virtual-environment">
+<h3>Task 0: Set Up a Virtual Environment</h3>
+<p>We’ve already learned how to invoke a virtual environment and why it’s
+necessary to compartmentalize your installations for a given application
+build, but here is a short reminder of the process:</p>
+<ol class="arabic">
+<li><p>Create and activate a new, empty virtual environment:</p>
+<pre class="console literal-block">$ <span class="cmd">virtualenv env</span>
+$ <span class="cmd">source env/bin/activate</span></pre>
+</li>
+<li><p>Use <cite>pip3</cite> to install the packages required by the project:</p>
+<pre class="console literal-block">(env) $ <span class="cmd">pip3 install -r requirements.txt</span></pre>
+</li>
+<li><p>Check that your <cite>.gitignore</cite> file is correct (including <code class="docutils literal notranslate"><span class="pre">*.pyc</span></code> and
+<code class="docutils literal notranslate"><span class="pre">env</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code> your files, including <cite>requirements.txt</cite> and your <cite>.gitignore</cite>
+file; you’ll want these things in your git repository.</p></li>
+</ol>
+<p>If you want a more in-depth review of <cite>pip3</cite> and <cite>virtualenv</cite>,
+here’s a <a class="reference external" href="http://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/" target="_blank">full tutorial</a>.</p>
+</section>
+<section class="section" id="task-1-explore-the-app">
+<h3>Task 1: Explore the App</h3>
+<p>First, start the application:</p>
+<pre class="console literal-block">(env) $ <span class="cmd">python3 shoppingsite.py</span></pre>
+<p>Now, navigate to <a class="reference external" href="http://localhost:5000" target="_blank">http://localhost:5000</a> in your browser and start exploring the
+app.</p>
+<p>Your goal is to understand how the app is laid out. As you do this,
+create a diagram representing the pages, routes, templates,
+etc., and how they connect to each other.</p>
+<p>Learning how to map this stuff out visually is a <em>key skill</em> for web
+application developers.</p>
+<p>The code to generate any given page in your browser will be spread across
+three (or maybe even four) files, but it is fairly straightforward to take
+a page and find the code that matches it.</p>
+<ol class="arabic simple">
+<li><p>Get the URL of the page.</p></li>
+<li><p>Locate the view function corresponding to that route in <cite>shoppingsite.py</cite>.</p></li>
+<li><p>Any logic about the actual melons is located in <cite>melons.py</cite>. We’ve imported
+this into our <cite>shoppingsite.py</cite> as <code class="docutils literal notranslate"><span class="pre">melons</span></code>.</p></li>
+<li><p>The template name (<cite>.html</cite> file) will usually be located in the return
+statement for the function, as part of a <cite>render_template()</cite> call.</p></li>
+<li><p>From the template, locate any links or references to CSS files and images.</p></li>
+</ol>
+<p>As you explore the app and the associated files, watch out for a number of
+specific things, detailed below.</p>
+<ol class="arabic">
+<li><p>Variable Names in Templates</p>
+<p>Try to make sure you understand the source of all the variables that
+are being used in the <cite>.html</cite> templates. Whenever you see a <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">var</span> <span class="pre">}}</span></code>
+in a template, make sure that you can match the variable listed with one
+coming from your view function.</p>
+<p>For the <cite>all-melons</cite> and <cite>melon-detail</cite> pages, the variables passed are,
+respectively, a list of Melon objects and a single Melon object — take a
+look at the <cite>Melon</cite> class to make sure you see the instance attributes that
+are shown on these pages.</p>
+</li>
+<li><p>Jinja Control Structures</p>
+<p>You’ll notice that the <cite>melon-detail</cite> page uses an <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">if</span> <span class="pre">%}</span></code> statement
+to display whether or not a given melon is seedless. Remember this syntax
+from our earlier Jinja lesson. In addition to giving us a mechanism for
+inserting placeholders into our HTML, Jinja also gives us a few control
+structures, like if-statements and for-loops. We can use these to make the
+contents of our page a little more dynamic.</p>
+<p>More info here: <a class="reference external" href="http://jinja.pocoo.org/docs/templates/#if" target="_blank">Jinja if-statements</a>
+and here: <a class="reference external" href="http://jinja.pocoo.org/docs/templates/#for" target="_blank">Jinja for-loops</a></p>
+</li>
+<li><p>Template Inheritance</p>
+<p>You’ll see that some of the provided templates are very sparse. We’re using
+the template inheritance feature of Flask, where child templates
+(like <cite>all_melons.html</cite>) have content which gets filled into blocks in the
+parent template (<cite>base.html</cite>).</p>
+<p>More info here: <a class="reference external" href="http://jinja.pocoo.org/docs/templates/#template-inheritance" target="_blank">Jinja template inheritance</a></p>
+</li>
+<li><p>Static Files</p>
+<p>If you try to access the HTML templates directly in your browser (i.e.
+navigate over to <a class="reference external" href="http://localhost:5000/templates/all_melons.html" target="_blank">http://localhost:5000/templates/all_melons.html</a>), you will
+get a 404 error. This is because templates are not immediately used — only
+things have been preprocessed can be displayed. Templates have to be run
+through your route for all the placeholder variables to be replaced.</p>
+<p>By contrast, you can access <a class="reference external" href="http://localhost:5000/static/img/ubermelon-logo.png" target="_blank">http://localhost:5000/static/img/ubermelon-logo.png</a>
+directly in your browser without any issue. This is because the Ubermelon
+logo resides in a special directory called <cite>static/</cite>. Files that go in
+this directory are routed automatically, and are therefore available
+to browser requests without any preprocessing. This makes sense for files
+like images or stylesheets that don’t change (files which are, in other
+words, <em>static</em>… hence the name of the directory).</p>
+</li>
+<li><p>Message Flashing</p>
+<p>Handling a real checkout process (charging credit cards and shipping melons)
+is outside the scope of our task, but it is worth noting the <em>message flash</em>
+mechanism that is used when you try to check out. To see this, go to <strong>My
+Melon Cart</strong> and click the <strong>Checkout</strong> button. Note the warning that appears
+on the next page. If you refresh this page, the warning goes away – it’s
+not permanently part of this page, but rather a one-time message.</p>
+<p>These message flashes are are great places to place error, warning, or
+success messages. Flashed messages only display once; if you reload the
+page, you will see that they disappear.</p>
+<p>More info here: <a class="reference external" href="http://flask.pocoo.org/docs/patterns/flashing/" target="_blank">Flask message flashing</a></p>
+</li>
+</ol>
+</section>
+</section>
+<section class="section" id="viewing-melons">
+<h2>Viewing Melons</h2>
+<section class="section" id="task-2-fix-links-to-melon-details-pages">
+<h3>Task 2: Fix Links to Melon Details Pages</h3>
+<p>We would like to show the details for the Crimson Sweet Watermelon
+(melon id <em>cris</em>) at URL <a class="reference external" href="http://localhost:5000/melon/cris" target="_blank">http://localhost:5000/melon/cris</a>, the details for the
+Moonbeam Watermelon (melon id <em>moon</em>) at URL <a class="reference external" href="http://localhost:5000/melon/moon" target="_blank">http://localhost:5000/melon/moon</a>,
+and so on for melons with different ID’s.</p>
+<p>It would be great to have just one route for melon details that has <cite>melon_id</cite>
+as a variable.  This is a common pattern in URL routing, and Flask has a way
+for us to include variables as parts of our URL.</p>
+<p>To add a <cite>melon_id</cite> variable to the URL, we can do the following:</p>
+<div class="literal-block-wrapper docutils container" id="shoppingsite-showmelon">
+<div class="code-block-caption"><span class="caption-text">shoppingsite.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/melon/&lt;melon_id&gt;&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_melon</span><span class="p">(</span><span class="n">melon_id</span><span class="p">):</span>
+</pre></div>
+</div>
+</div>
+<p>The variable is passed from the URL into the function — notice that
+<cite>show_melon</cite> is taking one parameter, <cite>melon_id</cite>, which is coming from the URL.</p>
+<p>(You can read the documentation on flask URL variable rules
+<a class="reference external" href="http://flask.pocoo.org/docs/quickstart/#variable-rules" target="_blank">here</a>.)</p>
+<p>Click on a few of the melon options to take a look at melon details.
+But wait! They all show the same melon! What’s going on?</p>
+<p>Look at the <cite>show_melon</cite> view function. Fix our <cite>get_by_id</cite> call so that
+it uses <cite>melon_id</cite> (and note where this value is coming from). Once you’ve
+made the fix, check to see that the link now works for different melons, then
+commit your changes.</p>
+</section>
+</section>
+<section class="section" id="the-shopping-cart">
+<h2>The Shopping Cart</h2>
+<section class="section" id="task-3-add-melons-to-the-cart">
+<h3>Task 3: Add Melons to the Cart</h3>
+<p>Right now, the “Add to Cart” button on the melon detail page is connected
+to a view function by an <cite>&#64;app.route()</cite>, but the function doesn’t do anything.
+When you view the shopping cart page, you’ll notice that all the
+items in it are placeholder items. You’ll need to replace those items
+with the actual melons the user adds, but we won’t worry about that until the
+next step.</p>
+<p>We need a way to temporarily hold information that the user generates (i.e.,
+which melons are in the cart). It’s short-term information that’s attached to
+the browser you’re currently using. This kind of information is best stored
+in a browser <cite>session</cite>. (If you need to review sessions, read the
+<a class="reference external" href="http://flask.pocoo.org/docs/quickstart/#sessions" target="_blank">session documentation</a>
+to figure out how to import <cite>session</cite> from Flask and use it.)</p>
+<p>To test that the session is working once you’ve imported it, try to put
+something in the session and print that thing to your terminal by first
+retrieving it from the session. Once you have the session working, keep going.</p>
+<p>We will use the session to carry information from clicking the <strong>Add to Cart</strong>
+button on the melon details page to the shopping cart page. Specifically,
+we’ll use a dictionary with the structure <code class="docutils literal notranslate"><span class="pre">{melon_id:</span> <span class="pre">count}</span></code> as our cart,
+keyed to the string <code class="docutils literal notranslate"><span class="pre">&quot;cart&quot;</span></code> in the session.</p>
+<p>Breaking down the process, here are the necessary steps:</p>
+<ol class="arabic">
+<li><p>On adding an item, check to see if the session already contains a cart.</p></li>
+<li><p>If not, add a new cart (an empty dictionary) to the session.</p>
+<p>Remember: since the session is a magic dictionary, the cart is a
+key-value pair: <code class="docutils literal notranslate"><span class="pre">session[&quot;cart&quot;]</span> <span class="pre">=</span> <span class="pre">{}</span></code>.</p>
+</li>
+<li><p>Add the melon id to our cart dictionary (if it’s not already there) and
+increment the corresponding count by 1. <strong>Before you test your code, make
+a</strong> <cite>flash</cite> <strong>message indicating that the melon was successfully added.
+Otherwise, your session will fail to update.</strong></p></li>
+<li><p>As a temporary testing measure, print the cart to the terminal so you can
+see that the melon has been successfully added.</p></li>
+<li><p>Redirect the user to the shopping cart route (<code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">redirect(&quot;/cart&quot;)</span></code>).
+Until you complete the next task, the data there won’t be right, but you’ll
+know from what prints to the terminal that your add-to-cart logic is
+working.</p></li>
+</ol>
+<p>If you need to empty your session at any point during your testing,
+close your current window, open a new incognito window, and reload your
+site there.</p>
+</section>
+<section class="section" id="task-4-display-the-cart">
+<h3>Task 4: Display the Cart</h3>
+<p>Now we need to make the shopping cart page work correctly. The big idea is to
+loop over the contents of the cart using Jinja, and display the relevant
+information instead of the dummy data that’s currently on the page.
+You’ll have to change not only the view function but also the HTML template.</p>
+<p>More specifically, you’ll need to:</p>
+<ol class="arabic simple">
+<li><p>Get the cart dictionary out of the session.</p></li>
+<li><p>For each melon id in the cart dictionary, retrieve the corresponding <cite>Melon</cite>
+object using the same <cite>get_by_id</cite> function you used in the route for the
+melon details page.</p></li>
+<li><p>Add quantity and total price attributes to the <cite>Melon</cite> object.</p></li>
+<li><p>Add the <cite>Melon</cite> object to a cart list.</p></li>
+<li><p>Add the total price for that melon type to a running tally of total cost
+for the order.</p></li>
+<li><p>Pass the list and order total through to the Jinja template.</p></li>
+<li><p>In Jinja, loop over the list and for each <cite>Melon</cite>, display all the relevant
+info. Also display the total cost of the order.</p></li>
+</ol>
+<p>When writing your view function, check what happens if
+no cart has been added to the session, and make sure your function can handle
+that case. What should you pass to the Jinja template? How should the Jinja
+template handle what you pass to it?</p>
+</section>
+</section>
+<section class="section" id="congratulations">
+<h2>Congratulations!</h2>
+<p>Stretch, drink some water, and high five someone. (No, seriously.
+That was a lot of work — awesome job!).</p>
+</section>
+<section class="section" id="solution">
+<h2>Solution</h2>
+<p><a class="reference external" href="solution">Click here to view the solution</a>.</p>
+</section>
+<section class="section" id="further-study">
+<h2>Further Study</h2>
+<p>If you have time, you can check out the <a class="reference external" href="further-study.html">Further Study</a>.</p>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2022 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="_static/main.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+  </body>
+</html>
