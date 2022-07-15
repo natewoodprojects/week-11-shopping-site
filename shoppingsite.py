@@ -6,10 +6,11 @@ put melons in a shopping cart.
 Authors: Joel Burton, Christian Fernandez, Meggie Mahnken, Katie Byers.
 """
 
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, session, request
 import jinja2
 
 import melons
+import customers
 
 app = Flask(__name__)
 
@@ -25,7 +26,6 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 # This configuration option makes the Flask interactive debugger
 # more useful (you should remove this line in production though)
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
-
 
 @app.route("/")
 def index():
@@ -50,8 +50,7 @@ def show_melon(melon_id):
     Show all info about a melon. Also, provide a button to buy that melon.
     """
 
-    melon = melons.get_by_id("meli")
-    print(melon)
+    melon = melons.get_by_id(melon_id)
     return render_template("melon_details.html",
                            display_melon=melon)
 
@@ -65,20 +64,30 @@ def show_shopping_cart():
     # The logic here will be something like:
     #
     # - get the cart dictionary from the session
-    # - create a list to hold melon objects and a variable to hold the total
-    #   cost of the order
+    cart = session.get('cart', {})
+    # - create a list to hold melon objects and a variable to hold the total cost of the order
+    list = []
+    cost = 0
     # - loop over the cart dictionary, and for each melon id:
     #    - get the corresponding Melon object
     #    - compute the total cost for that type of melon
     #    - add this to the order total
     #    - add quantity and total cost as attributes on the Melon object
     #    - add the Melon object to the list created above
+    for melon_id, quantity in cart.items():
+        melon = melons.get_by_id(melon_id)
+
+        cost += quantity * melon.price
+
+        melon.quantity = quantity
+        melon.total_cost = quantity * melon.price
+
+        list.append(melon)
     # - pass the total order cost and the list of Melon objects to the template
-    #
     # Make sure your function can also handle the case wherein no cart has
     # been added to the session
 
-    return render_template("cart.html")
+    return render_template("cart.html", cart=list, order_total=cost)
 
 
 @app.route("/add_to_cart/<melon_id>")
@@ -96,11 +105,17 @@ def add_to_cart(melon_id):
     # - check if a "cart" exists in the session, and create one (an empty
     #   dictionary keyed to the string "cart") if not
     # - check if the desired melon id is the cart, and if not, put it in
-    # - increment the count for that melon id by 1
-    # - flash a success message
-    # - redirect the user to the cart page
+    if 'cart' in session:
+        cart = session['cart']
+    else:
+        cart = session['cart'] = {}
 
-    return "Oops! This needs to be implemented!"
+    # - increment the count for that melon id by 1
+    cart[melon_id] = cart.get(melon_id, 0) + 1
+    # - flash a success message
+    flash("Bro! You did it! Added it to the cart and it flashed!")
+    # - redirect the user to the cart page
+    return redirect("/cart")
 
 
 @app.route("/login", methods=["GET"])
@@ -132,7 +147,22 @@ def process_login():
     # - if they don't, flash a failure message and redirect back to "/login"
     # - do the same if a Customer with that email doesn't exist
 
-    return "Oops! This needs to be implemented"
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user = customers.get_by_email(email)
+
+    if not user:
+        flash("No such email address.")
+        return redirect('/login')
+
+    if user.password != password:
+        flash("Incorrect password.")
+        return redirect("/login")
+
+    session["logged_in_customer_email"] = user.email
+    flash("Logged in.")
+    return redirect("/melons")
 
 
 @app.route("/checkout")
@@ -143,6 +173,12 @@ def checkout():
     # scope of this exercise.
 
     flash("Sorry! Checkout will be implemented in a future version.")
+    return redirect("/melons")
+
+@app.route("/logout")
+def process_logout():
+    del session["logged_in_customer_email"]
+    flash("Logged out.")
     return redirect("/melons")
 
 
